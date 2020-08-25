@@ -1,13 +1,13 @@
 package ru.geekbrains.main.site.at;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import ru.geekbrains.main.site.at.base.BaseSettingsTest;
+import ru.geekbrains.main.site.at.page.AuthorizationPage;
 
-import static org.hamcrest.MatcherAssert.assertThat;
+import java.util.concurrent.TimeUnit;
+
 import static org.hamcrest.Matchers.*;
 //        Перейти на сайт https://geekbrains.ru/courses
 //        Нажать на кнопку Поиск
@@ -23,51 +23,33 @@ import static org.hamcrest.Matchers.*;
 //        В Проектах и компаниях отображается GeekBrains
 
 
-public class SearchTest extends BaseSettingsTest {
-    @DisplayName("Проверка поиска")
-    @Test
-    public void pageTitleTest() {
-        driver.findElement(By.cssSelector("li>[class=\"show-search-form\"]")).click();
-        WebElement inputSearch = driver.findElement(By.cssSelector("[class=\"search-panel__search-field\"]"));
-        inputSearch.sendKeys("java");
-        WebElement pageProfessions = driver.findElement(By.cssSelector("div [id=\"professions\"] h2"));
-        WebElement pageCourses = driver.findElement(By.xpath(".//header//*[text()='Курсы']"));
-        WebElement pageEvents = driver.findElement(By.xpath(".//header//*[text()='Вебинары']"));
-        WebElement pagePosts = driver.findElement(By.xpath(".//header//*[text()='Блоги']"));
-        WebElement pageTopics = driver.findElement(By.xpath(".//header//*[text()='Форум']"));
-        WebElement pageTests = driver.findElement(By.xpath(".//header//*[text()='Тесты']"));
-        WebElement pageProject = driver.findElement(By.xpath(".//header//*[text()='Проекты и компании']"));
+
+        @DisplayName("Поиск")
+        public class SearchTest extends BaseSettingsTest {
 
 
-        WebElement sumProfessions = driver.findElement(By.cssSelector("div [id=\"professions\"] li a span"));
-        WebElement sumCourses = driver.findElement(By.xpath("//a[@class=\"search-page-block__more\"] [@data-tab=\"courses\"]/span "));
-        WebElement sumEvents = driver.findElement(By.xpath("//a[@class=\"search-page-block__more\"] [@data-tab=\"webinars\"]/span "));
-        WebElement sumPosts = driver.findElement(By.xpath("//a[@class=\"search-page-block__more\"] [@data-tab=\"blogs\"]/span "));
-        WebElement sumTopics = driver.findElement(By.xpath("//a[@class=\"search-page-block__more\"] [@data-tab=\"forums\"]/span "));
-        WebElement sumTests = driver.findElement(By.xpath("//a[@class=\"search-page-block__more\"] [@data-tab=\"tests\"]/span "));
-        WebElement firstWebinar = driver.findElement(By.cssSelector("[class=\"event__title h3 search_text\"]"));
-
-        wait30second.until(ExpectedConditions.visibilityOf(pageProfessions));
-        wait30second.until(ExpectedConditions.visibilityOf(pageCourses));
-        wait30second.until(ExpectedConditions.visibilityOf(pageEvents));
-        wait30second.until(ExpectedConditions.visibilityOf(pagePosts));
-        wait30second.until(ExpectedConditions.visibilityOf(pageTopics));
-        wait30second.until(ExpectedConditions.visibilityOf(pageTests));
-        wait30second.until(ExpectedConditions.visibilityOf(pageProject));
+            @BeforeEach
+            void beforeSearchTest() {
+                driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+            }
 
 
-        assertThat(Integer.parseInt(sumProfessions.getText()), greaterThanOrEqualTo(2));
-        assertThat(Integer.parseInt(sumCourses.getText()), greaterThan(15));
-        assertThat(Integer.parseInt(sumEvents.getText()), allOf(greaterThan(180),lessThan(300)));
-        assertThat(Integer.parseInt(sumPosts.getText()),greaterThan(300));
-        assertThat(Integer.parseInt(sumTopics.getText()), not(350));
-        assertThat(Integer.parseInt(sumTests.getText()), not(0));
-        assertThat(firstWebinar.getText(),equalTo("Java Junior. Что нужно знать для успешного собеседования?"));
+            @DisplayName("Проверка количества контента")
+            @Test
+            void searchTest() {
+                driver.get("https://geekbrains.ru/login");
+                new AuthorizationPage(driver)
+                        .singIn("hks47018@eoopy.com","hks47018")
+                        .checkPageName("Главная")
+                        .getHeaderBlock()
+                        .searchText("java")
+                        .getSearchSectionBlock()
+                        .checkCount("Профессии", greaterThanOrEqualTo(2))
+                        .checkCount("Курсы", greaterThan(15))
+                        .checkCount("Вебинары", allOf(greaterThan(180), lessThan(300)))
+                        .checkCount("Блоги", greaterThan(300))
+                        .checkCount("Форумы", not(350))
+                        .checkCount("Тесты", not(0));
+            }
+        }
 
-
-    }
-
-
-
-
-}
