@@ -1,5 +1,6 @@
 package ru.geekbrains.main.site.at.block;
 
+import io.qameta.allure.Step;
 import org.hamcrest.Matcher;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -38,7 +39,7 @@ public class SearchSectionBlock extends BasePage {
     public SearchSectionBlock(WebDriver driver) {
         super(driver);
     }
-
+    @Step("Проверка колличства. '{tabName}' - '{matcher}'")
     public SearchSectionBlock checkCount(String tabName, Matcher<Integer> matcher) {
         String actualCount = getSection(tabName).findElement(By.cssSelector("span")).getText();
         assertThat(Integer.parseInt(actualCount), matcher);

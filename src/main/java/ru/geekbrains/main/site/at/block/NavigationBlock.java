@@ -1,5 +1,6 @@
 package ru.geekbrains.main.site.at.block;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -31,7 +32,7 @@ public class NavigationBlock extends BasePage {
     public NavigationBlock(WebDriver driver) {
         super(driver);
     }
-
+    @Step("Нажатие на кнопку: '{nameButton}'")
     public ContentPage clickButton(String nameButton){
         switch (nameButton){
             case "Иконка" : {

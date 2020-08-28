@@ -1,5 +1,6 @@
 package ru.geekbrains.main.site.at.block;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -20,12 +21,12 @@ public class HeaderBlock extends BasePage {
     public HeaderBlock(WebDriver driver) {
         super(driver);
     }
-
+    @Step("Проверка нахождения на странице '{exampleNamePage}'")
     public HeaderBlock checkNamePage(String exampleNamePage) {
         webDriverWait.until(ExpectedConditions.textToBePresentInElement(headerTitlePage, exampleNamePage));
         return this;
     }
-
+    @Step("Поиск по слову '{text}'")
     public SearchPage searchText(String text) {
         buttonSearch.click();
         inputSearch.sendKeys(text);
