@@ -42,13 +42,13 @@ public class HeaderCoursesBlock extends BasePage {
                 this.companies.click();
                 break;
             }
-
             default: {
                 throw new RuntimeException("Кнопки: " + nameButton + " нет на странице!");
             }
         }
         return new ContentPage(driver);
     }
+
 }
 
 

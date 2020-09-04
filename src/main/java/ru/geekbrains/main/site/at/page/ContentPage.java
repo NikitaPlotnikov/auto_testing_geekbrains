@@ -7,7 +7,9 @@ import org.openqa.selenium.support.FindBy;
 import ru.geekbrains.main.site.at.BasePage;
 import ru.geekbrains.main.site.at.block.*;
 
-public class ContentPage extends BasePage {
+import static ru.geekbrains.main.site.at.block.NavigationBlock.*;
+
+public class ContentPage extends BasePage implements iOpenURL {
     private HeaderBlock headerBlock;
     private NavigationBlock navigationBlock;
     private HeaderCoursesBlock headerCoursesBlock;
@@ -30,13 +32,12 @@ public class ContentPage extends BasePage {
         this.sampleBlock = new SampleBlock(driver);
     }
 
-    public ContentPage checkPageName(String expectedNamePage) {
-        headerBlock.checkNamePage(expectedNamePage);
+    public ContentPage checkPageName(NameButton nameButton) {
+        headerBlock.checkNamePage(nameButton.getText());
         return this;
     }
     @Step("Закрытик PopUp")
     public ContentPage closePopUp(){
-        popUp1.click();
         popUp2.click();
         return this;
     }
@@ -61,4 +62,9 @@ public class ContentPage extends BasePage {
         return navigationBlock;
     }
 
+    @Override
+    public ContentPage openURL() {
+        openPageInBrowser("https://geekbrains.ru/career");
+        return this;
+    }
 }

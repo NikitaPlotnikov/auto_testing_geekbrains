@@ -9,8 +9,6 @@ import ru.geekbrains.main.site.at.page.ContentPage;
 
 public class FiltersBlock extends BasePage {
 
-
-
     @FindBy(css = "[id=\"filter-0\"]")
     private WebElement filtersFree;
 
@@ -56,22 +54,10 @@ public class FiltersBlock extends BasePage {
     public FiltersBlock(WebDriver driver) {
         super(driver);
     }
-    //    Бесплатные                    filtersFree
-//    Для начинающих                filtersForBeginners
-//    Веб-разработка                filtersWebDevelopment
-//    Разработка программ           filtersProgrammeDevelopment
-//    Веб-дизайн                    filtersWebDesign
-//    Мобильная разработка          filtersMobileDevelopment
-//    Разработка игр                filtersGameDevelopment
-//    Информационная безопасность   filtersInformationSecurity
-//    Data Science                  filtersDataScience
-//    Тестирование                  filtersTesting
-//    Интернет маркетинг            filtersInternetMarketing
-//    Системное администрирование   filtersSystemAdministration
-//    GeekClub                      filtersGeekClub
-//    Киберспорт                    filtersSport
+
     @Step("Нажатие на чек бокс фильтра: '{nameButton}'")
     public ContentPage clickButton(String nameButton) {
+        //TODO переделать под arreylist
         switch (nameButton) {
             case "Бесплатные": {
                 this.filtersFree.click();
@@ -129,7 +115,6 @@ public class FiltersBlock extends BasePage {
                 this.filtersSport.click();
                 break;
             }
-
             default: {
                 throw new RuntimeException("Кнопки: " + nameButton + " нет на странице!");
             }

@@ -16,12 +16,11 @@ public class SampleBlock extends BasePage {
     public SampleBlock(WebDriver driver) {
         super(driver);
     }
+
     @Step("Проверка нахождения на странице контента с названием: '{nameContent}'")
     public ContentPage searchContent(String nameContent){
         webDriverWait.until(ExpectedConditions.textToBePresentInElement(fullSample,nameContent));
         return new ContentPage(driver);
-
-
     }
 
 }

@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import ru.geekbrains.main.site.at.BasePage;
+import ru.geekbrains.main.site.at.utils.ButtonNotFoundException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -39,39 +40,60 @@ public class SearchSectionBlock extends BasePage {
     public SearchSectionBlock(WebDriver driver) {
         super(driver);
     }
+
     @Step("Проверка колличства. '{tabName}' - '{matcher}'")
-    public SearchSectionBlock checkCount(String tabName, Matcher<Integer> matcher) {
-        String actualCount = getSection(tabName).findElement(By.cssSelector("span")).getText();
+    public SearchSectionBlock checkCount(NameSection nameSection, Matcher<Integer> matcher) {
+        String actualCount = getSection(nameSection).findElement(By.cssSelector("span")).getText();
         assertThat(Integer.parseInt(actualCount), matcher);
         return this;
     }
+    private WebElement getSection(NameSection nameSection){
+        switch (nameSection){
 
-    private WebElement getSection(String nameSection) {
-        switch (nameSection) {
-            case "Профессии": {
+            case Profession: {
                 return sectionProfessions;
             }
-            case "Курсы": {
+            case Courses: {
                 return sectionCourses;
             }
-            case "Вебинары": {
+            case Webinars: {
                 return sectionWebinars;
             }
-            case "Блоги": {
+            case Blogs: {
                 return sectionBlogs;
             }
-            case "Форумы": {
+            case Forums: {
                 return sectionForums;
             }
-            case "Тесты": {
+            case Tests: {
                 return sectionTests;
             }
-            case "Компании": {
+            case Companies: {
                 return sectionCompanies;
             }
-            default: {
-                throw new RuntimeException("Элемента: " + nameSection + " нет на странице!");
+            default:{
+                throw new ButtonNotFoundException("Блока " + nameSection + " нет на странице.\n" +
+                        "Или условие не описанно в switch");
             }
+        }
+    }
+    public enum NameSection {
+        Profession("Профессии"),
+        Courses("Курсы"),
+        Webinars("Вебинары"),
+        Blogs("Блоги"),
+        Forums("Форумы"),
+        Tests("Тесты"),
+        Companies("Компании");
+
+        NameSection(String text) {
+            this.text = text;
+        }
+
+        private String text;
+
+        public String getText() {
+            return text;
         }
     }
 }

@@ -18,7 +18,6 @@ public abstract class BaseSettingsTest {
     @BeforeEach
     public void beforeAllTest() {
         WebDriverManager.chromedriver().setup();
-
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("-incognito");
         chromeOptions.addArguments("--disabled-notifications");
@@ -28,13 +27,10 @@ public abstract class BaseSettingsTest {
         driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
         driver.manage().timeouts().setScriptTimeout(30, TimeUnit.SECONDS);
         driver.manage().window().maximize();
-
         driver.get("https://geekbrains.ru/career");
-
         wait30second = new WebDriverWait(driver, 30);
         wait15second = new WebDriverWait(driver, 15);
     }
-
     @AfterEach
     public void afterAllTest() {
         driver.quit();

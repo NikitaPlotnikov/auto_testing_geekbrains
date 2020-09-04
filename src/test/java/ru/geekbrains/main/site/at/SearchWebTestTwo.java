@@ -2,11 +2,13 @@ package ru.geekbrains.main.site.at;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import ru.geekbrains.main.site.at.base.BaseSettingsTest;
 import ru.geekbrains.main.site.at.page.AuthorizationPage;
 
+import static ru.geekbrains.main.site.at.block.NavigationBlock.NameButton;
 //        Дополнительное задание
-//
 //        Реализовать тест:
 //        1. Перейти на страницу авторизация https://geekbrains.ru/login
 //        2. Ввести логин : hks47018@eoopy.com
@@ -20,17 +22,17 @@ import ru.geekbrains.main.site.at.page.AuthorizationPage;
 //        10. Проверить что в выборке отображается курсы "Тестирование ПО. Уровень 1"
 //        11. Проверить что в выборке отображается курсы "Тестирование ПО. Уровень 2"
 @DisplayName("Дополнительное задание")
+@Execution(ExecutionMode.CONCURRENT)
 public class SearchWebTestTwo extends BaseSettingsTest {
     @DisplayName("Проверка отоброжения контента")
     @Test
     void SearchTestTwo() {
-        driver.get("https://geekbrains.ru/login");
-
         new AuthorizationPage(driver)
+                .openURL()
                 .singIn("hks47018@eoopy.com", "hks47018")
-                .checkPageName("Главная")
+                .checkPageName(NameButton.HOME)
                 .getNavigationBlock()
-                .clickButton("Курсы")
+                .clickButton(NameButton.COURSES)
                 .getHeaderCoursesBlock()
                 .clickButton("Курсы")
                 .getFiltersBlock()
