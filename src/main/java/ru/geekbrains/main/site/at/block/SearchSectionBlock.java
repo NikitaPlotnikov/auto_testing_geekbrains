@@ -41,7 +41,7 @@ public class SearchSectionBlock extends BasePage {
         super(driver);
     }
 
-    @Step("Проверка колличства. '{tabName}' - '{matcher}'")
+    @Step("Проверка колличства. '{nameSection}' - '{matcher}'")
     public SearchSectionBlock checkCount(NameSection nameSection, Matcher<Integer> matcher) {
         String actualCount = getSection(nameSection).findElement(By.cssSelector("span")).getText();
         assertThat(Integer.parseInt(actualCount), matcher);
